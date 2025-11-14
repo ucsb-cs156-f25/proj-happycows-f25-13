@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-f25/proj-happycows-f25-13
 owner: ucsb-cs156-f25
 repo_name: proj-happycows-f25-13
-pull_requests: [{"author":{"id":"U_kgDOCU6U0g","is_bot":false,"login":"LemoNaCl","name":"Hao Ding"},"headRefName":"RecordCommonStats-launcher","number":23,"title":"Created launcher for RecordCommonStats","url":"https://github.com/ucsb-cs156-f25/proj-happycows-f25-13/pull/23"},{"author":{"id":"U_kgDOCsAPpQ","is_bot":false,"login":"sidushdid","name":""},"headRefName":"sidushdid-add-admin-developer-page","number":21,"title":"added AdminDeveloperPage","url":"https://github.com/ucsb-cs156-f25/proj-happycows-f25-13/pull/21"}]
+pull_requests: [{"author":{"id":"U_kgDOCsAPpQ","is_bot":false,"login":"sidushdid","name":""},"headRefName":"sidushdid-add-admin-developer-page","number":21,"title":"added AdminDeveloperPage","url":"https://github.com/ucsb-cs156-f25/proj-happycows-f25-13/pull/21"}]

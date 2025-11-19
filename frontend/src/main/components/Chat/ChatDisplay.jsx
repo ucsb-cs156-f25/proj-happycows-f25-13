@@ -1,27 +1,32 @@
-import React from "react";
+// import React from "react";
+import React, { useState, useEffect } from "react";
 import ChatMessageDisplay from "main/components/Chat/ChatMessageDisplay";
 import { useBackend } from "main/utils/useBackend";
 
 // Props for storybook manual injection
 
 const ChatDisplay = ({ commonsId }) => {
-  const initialMessagePageSize = 100;
+  const initialMessagePageSize = 10;
   const refreshRate = 2000;
 
-  // Stryker disable all
+  const [page, setPage] = useState(0);
+  const [allMessages, setAllMessages] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
   const { data: messagesPage } = useBackend(
-    [`/api/chat/get`],
+    [
+      `/api/chat/get?page=${page}&size=${initialMessagePageSize}&commonsId=${commonsId}`,
+    ],
     {
       method: "GET",
       url: `/api/chat/get`,
       params: {
         commonsId: commonsId,
-        page: 0,
+        page: page,
         size: initialMessagePageSize,
       },
     },
-    { content: [] },
+    { content: [], last: true },
     { refetchInterval: refreshRate },
   );
 
@@ -40,7 +45,20 @@ const ChatDisplay = ({ commonsId }) => {
 
   // Stryker restore all
 
-  const sortedMessages = messagesPage.content.sort((a, b) => b.id - a.id);
+  // when messagesPage updates, merge into allMessages
+  useEffect(() => {
+    if (messagesPage && Array.isArray(messagesPage.content)) {
+      if (page === 0) {
+        setAllMessages(messagesPage.content);
+      } else {
+        setAllMessages((prev) => [...prev, ...messagesPage.content]);
+      }
+      setHasMore(!messagesPage.last);
+    }
+  }, [messagesPage, page]);
+
+  // const sortedMessages = allMessages.sort((a, b) => b.id - a.id);
+  const sortedMessages = [...allMessages].sort((a, b) => b.id - a.id);
 
   const userIdToUsername = userCommonsList.reduce((acc, user) => {
     acc[user.userId] = user.username || "";
@@ -58,7 +76,7 @@ const ChatDisplay = ({ commonsId }) => {
       data-testid="ChatDisplay"
     >
       {Array.isArray(sortedMessages) &&
-        sortedMessages.slice(0, initialMessagePageSize).map((message) => (
+        sortedMessages.map((message) => (
           <ChatMessageDisplay
             key={message.id}
             message={{
@@ -67,6 +85,24 @@ const ChatDisplay = ({ commonsId }) => {
             }}
           />
         ))}
+
+      {hasMore && (
+        <button
+          onClick={() => setPage((p) => p + 1)}
+          data-testid="ChatDisplay-More"
+          style={{ marginTop: "8px" }}
+        >
+          More messages
+        </button>
+      )}
+      {!hasMore && (
+        <div
+          data-testid="ChatDisplay-End"
+          style={{ textAlign: "center", opacity: 0.7, marginTop: "4px" }}
+        >
+          No more messages
+        </div>
+      )}
     </div>
   );
 };

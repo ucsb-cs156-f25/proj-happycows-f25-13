@@ -22,12 +22,11 @@ Empty.args = {
 
 Empty.parameters = {
   msw: [
-    http.get("/api/chat/get?page=0&size=10&commonsId=1", () => {
-      return HttpResponse.json({ content: [] }, { status: 200 });
+    http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
+      return HttpResponse.json({ content: [], last: true });
     }),
-
-    http.get("/api/usercommons/all?commonsId=1", () => {
-      return HttpResponse.json([], { status: 200 });
+    http.get(/\/api\/usercommons\/commons\/all.*/, () => {
+      return HttpResponse.json([]);
     }),
   ],
 };
@@ -40,20 +39,18 @@ OneMessage.args = {
 
 OneMessage.parameters = {
   msw: [
-    http.get("/api/chat/get?page=0&size=10&commonsId=1", () => {
+    http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
       return HttpResponse.json(
         {
           content: chatMessageFixtures.oneChatMessage,
-          totalPages: 1,
+          last: true,
         },
         { status: 200 },
       );
     }),
 
-    http.get("/api/usercommons/all?commonsId=1", () => {
-      return HttpResponse.json(userCommonsFixtures.oneUserCommons, {
-        status: 200,
-      });
+    http.get(/\/api\/usercommons\/commons\/all.*/, () => {
+      return HttpResponse.json(userCommonsFixtures.oneUserCommons);
     }),
   ],
 };
@@ -66,20 +63,18 @@ ThreeMessages.args = {
 
 ThreeMessages.parameters = {
   msw: [
-    http.get("/api/chat/get?page=0&size=10&commonsId=1", () => {
+    http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
       return HttpResponse.json(
         {
           content: chatMessageFixtures.threeChatMessages,
-          totalPages: 1,
+          last: true,
         },
         { status: 200 },
       );
     }),
 
-    http.get("/api/usercommons/all?commonsId=1", () => {
-      return HttpResponse.json(userCommonsFixtures.threeUserCommons, {
-        status: 200,
-      });
+    http.get(/\/api\/usercommons\/commons\/all.*/, () => {
+      return HttpResponse.json(userCommonsFixtures.threeUserCommons);
     }),
   ],
 };
@@ -92,20 +87,22 @@ TwelveMessages.args = {
 
 TwelveMessages.parameters = {
   msw: [
-    http.get("/api/chat/get?page=0&size=10&commonsId=1", () => {
-      return HttpResponse.json(
-        {
-          content: chatMessageFixtures.twelveChatMessages,
-          totalPages: 2,
-        },
-        { status: 200 },
-      );
+    http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
+      const url = new URL(_request.url);
+      const page = Number(url.searchParams.get("page")) || 0;
+      const size = Number(url.searchParams.get("size")) || 10;
+
+      const start = page * size;
+      const end = start + size;
+
+      const messages = chatMessageFixtures.twelveChatMessages.slice(start, end);
+      const last = end >= chatMessageFixtures.twelveChatMessages.length;
+
+      return HttpResponse.json({ content: messages, last });
     }),
 
-    http.get("/api/usercommons/all?commonsId=1", () => {
-      return HttpResponse.json(userCommonsFixtures.tenUserCommons, {
-        status: 200,
-      });
+    http.get(/\/api\/usercommons\/commons\/all.*/, () => {
+      return HttpResponse.json(userCommonsFixtures.tenUserCommons);
     }),
   ],
 };

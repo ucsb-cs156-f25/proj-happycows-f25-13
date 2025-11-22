@@ -139,7 +139,7 @@ const userCommonsFixtures = {
       cowDeaths: 1000,
     },
     {
-      userId: 3,
+      userId: 4,
       username: "James Madison",
       commonsId: 1,
       totalWealth: 50,

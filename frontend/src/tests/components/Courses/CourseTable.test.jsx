@@ -196,7 +196,7 @@ describe("CourseTable tests", () => {
       `${testId}-cell-row-0-col-Delete-button`,
     );
     expect(deleteButton).toBeInTheDocument();
-    
+
     fireEvent.click(deleteButton);
   });
 });

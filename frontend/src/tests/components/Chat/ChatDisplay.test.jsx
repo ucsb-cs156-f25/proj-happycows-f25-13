@@ -80,12 +80,10 @@ describe("ChatDisplay tests", () => {
   });
 
   test("displays three messages with correct usernames and sorted newest to oldest", async () => {
-    axiosMock
-      .onGet("/api/chat/get")
-      .reply(200, {
-        content: chatMessageFixtures.threeChatMessages,
-        last: true,
-      });
+    axiosMock.onGet("/api/chat/get").reply(200, {
+      content: chatMessageFixtures.threeChatMessages,
+      last: true,
+    });
 
     axiosMock
       .onGet("/api/usercommons/all")

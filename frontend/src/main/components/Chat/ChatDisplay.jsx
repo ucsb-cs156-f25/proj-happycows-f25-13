@@ -19,6 +19,7 @@ const ChatDisplay = ({ commonsId }) => {
       params: { commonsId, page, size: 10 },
     },
     { content: [], last: true },
+    { refetchInterval: 2000 }
   );
 
   const { data: userCommonsList } = useBackend(

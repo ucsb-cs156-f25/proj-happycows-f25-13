@@ -4,105 +4,162 @@ import { http, HttpResponse } from "msw";
 import ChatDisplay from "main/components/Chat/ChatDisplay";
 import { chatMessageFixtures } from "fixtures/chatMessageFixtures";
 import userCommonsFixtures from "fixtures/userCommonsFixtures";
+import { apiCurrentUserFixtures } from "fixtures/currentUserFixtures";
 
 export default {
   title: "components/Chat/ChatDisplay",
   component: ChatDisplay,
 };
 
-const Template = (args) => {
-  return <ChatDisplay {...args} />;
-};
+const Template = (args) => <ChatDisplay {...args} />;
 
 export const Empty = Template.bind({});
-
-Empty.args = {
-  commonsId: 1,
-};
+Empty.args = { commonsId: 101 };
 
 Empty.parameters = {
-  msw: [
-    http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
-      return HttpResponse.json({ content: [], last: true });
-    }),
-    http.get(/\/api\/usercommons\/commons\/all.*/, () => {
-      return HttpResponse.json([]);
-    }),
-  ],
+  msw: {
+    handlers: [
+      http.get("/api/currentUser", () =>
+        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+      ),
+
+      http.get("/api/chat/get", ({ request }) => {
+        const url = new URL(request.url);
+        if (url.searchParams.get("commonsId") === "101") {
+          return HttpResponse.json({ content: [], last: true });
+        }
+        return HttpResponse.json({ content: [], last: true });
+      }),
+
+      http.get("/api/usercommons/all", ({ request }) => {
+        const url = new URL(request.url);
+        if (url.searchParams.get("commonsId") === "101") {
+          return HttpResponse.json([], { status: 200 });
+        }
+        return HttpResponse.json([], { status: 200 });
+      }),
+    ],
+  },
 };
 
 export const OneMessage = Template.bind({});
-
-OneMessage.args = {
-  commonsId: 1,
-};
+OneMessage.args = { commonsId: 102 };
 
 OneMessage.parameters = {
-  msw: [
-    http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
-      return HttpResponse.json(
-        {
-          content: chatMessageFixtures.oneChatMessage,
-          last: true,
-        },
-        { status: 200 },
-      );
-    }),
+  msw: {
+    handlers: [
+      http.get("/api/currentUser", () =>
+        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+      ),
 
-    http.get(/\/api\/usercommons\/commons\/all.*/, () => {
-      return HttpResponse.json(userCommonsFixtures.oneUserCommons);
-    }),
-  ],
+      http.get("/api/chat/get", ({ request }) => {
+        const url = new URL(request.url);
+        if (url.searchParams.get("commonsId") === "102") {
+          return HttpResponse.json(
+            { content: chatMessageFixtures.oneChatMessage, last: true },
+            { status: 200 }
+          );
+        }
+        return HttpResponse.json({ content: [], last: true });
+      }),
+
+      http.get("/api/usercommons/all", ({ request }) => {
+        const url = new URL(request.url);
+        if (url.searchParams.get("commonsId") === "102") {
+          return HttpResponse.json(
+            userCommonsFixtures.oneUserCommons,
+            { status: 200 }
+          );
+        }
+        return HttpResponse.json([], { status: 200 });
+      }),
+    ],
+  },
 };
 
 export const ThreeMessages = Template.bind({});
-
-ThreeMessages.args = {
-  commonsId: 1,
-};
+ThreeMessages.args = { commonsId: 103 };
 
 ThreeMessages.parameters = {
-  msw: [
-    http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
-      return HttpResponse.json(
-        {
-          content: chatMessageFixtures.threeChatMessages,
-          last: true,
-        },
-        { status: 200 },
-      );
-    }),
+  msw: {
+    handlers: [
+      http.get("/api/currentUser", () =>
+        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+      ),
 
-    http.get(/\/api\/usercommons\/commons\/all.*/, () => {
-      return HttpResponse.json(userCommonsFixtures.threeUserCommons);
-    }),
-  ],
+      http.get("/api/chat/get", ({ request }) => {
+        const url = new URL(request.url);
+        if (url.searchParams.get("commonsId") === "103") {
+          return HttpResponse.json(
+            { content: chatMessageFixtures.threeChatMessages, last: true },
+            { status: 200 }
+          );
+        }
+        return HttpResponse.json({ content: [], last: true });
+      }),
+
+      http.get("/api/usercommons/all", ({ request }) => {
+        const url = new URL(request.url);
+        if (url.searchParams.get("commonsId") === "103") {
+          return HttpResponse.json(
+            userCommonsFixtures.threeUserCommons,
+            { status: 200 }
+          );
+        }
+        return HttpResponse.json([], { status: 200 });
+      }),
+    ],
+  },
 };
 
-// export const TwelveMessages = Template.bind({});
+export const TwelveMessages = Template.bind({});
+TwelveMessages.args = { commonsId: 104 };
 
-// TwelveMessages.args = {
-//   commonsId: 1,
-// };
+TwelveMessages.parameters = {
+  msw: {
+    handlers: [
+      http.get("/api/currentUser", () =>
+        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+      ),
 
-// TwelveMessages.parameters = {
-//   msw: [
-//     http.get(/\/api\/chat\/get.*/, ({ request: _request }) => {
-//       const url = new URL(_request.url);
-//       const page = Number(url.searchParams.get("page")) || 0;
-//       const size = Number(url.searchParams.get("size")) || 10;
+      http.get("/api/chat/get", ({ request }) => {
+        const url = new URL(request.url);
+        const page = Number(url.searchParams.get("page"));
+        const commonsId = url.searchParams.get("commonsId");
 
-//       const start = page * size;
-//       const end = start + size;
+        if (commonsId === "104" && page === 0) {
+          return HttpResponse.json(
+            {
+              content: chatMessageFixtures.twelveChatMessages.slice(-10),
+              last: false,
+            },
+            { status: 200 }
+          );
+        }
 
-//       const messages = chatMessageFixtures.twelveChatMessages.slice(start, end);
-//       const last = end >= chatMessageFixtures.twelveChatMessages.length;
+        if (commonsId === "104" && page === 1) {
+          return HttpResponse.json(
+            {
+              content: chatMessageFixtures.twelveChatMessages.slice(0, -10),
+              last: true,
+            },
+            { status: 200 }
+          );
+        }
 
-//       return HttpResponse.json({ content: messages, last });
-//     }),
+        return HttpResponse.json({ content: [], last: true });
+      }),
 
-//     http.get(/\/api\/usercommons\/commons\/all.*/, () => {
-//       return HttpResponse.json(userCommonsFixtures.tenUserCommons);
-//     }),
-//   ],
-// };
+      http.get("/api/usercommons/all", ({ request }) => {
+        const url = new URL(request.url);
+        if (url.searchParams.get("commonsId") === "104") {
+          return HttpResponse.json(
+            userCommonsFixtures.tenUserCommons,
+            { status: 200 }
+          );
+        }
+        return HttpResponse.json([], { status: 200 });
+      }),
+    ],
+  },
+};

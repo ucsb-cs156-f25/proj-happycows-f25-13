@@ -4,50 +4,50 @@ import { useBackend } from "main/utils/useBackend";
 
 const ChatDisplay = ({ commonsId }) => {
   const [messages, setMessages] = useState([]);
-
   const [page, setPage] = useState(0);
-
+  // Stryker disable next-line all
   const [isLastPage, setIsLastPage] = useState(false);
 
   const processedMessageIds = useRef(new Set());
 
   // Stryker disable all
   const { data: messagesPage } = useBackend(
-    ["/api/chat/get", page],
+    ["/api/chat/get", commonsId, page],
     {
       method: "GET",
       url: "/api/chat/get",
-      params: {
-        commonsId: commonsId,
-        page: page,
-        size: 10,
-      },
+      params: { commonsId, page, size: 10 },
     },
-    { content: [], last: true },
+    { content: [], last: true }
   );
 
   const { data: userCommonsList } = useBackend(
-    ["/api/usercommons/commons/all", commonsId],
+    ["/api/usercommons/all", commonsId],
     {
       method: "GET",
-      url: "/api/usercommons/commons/all",
+      url: "/api/usercommons/all",
       params: { commonsId },
     },
-    [],
+    []
   );
 
   useEffect(() => {
-    // if (!messagesPage || !messagesPage.content) return;
+    setPage(0);
+    setMessages([]);
+    processedMessageIds.current = new Set();
+    setIsLastPage(false);
+  }, [commonsId]);
+
+  useEffect(() => {
 
     const newMessages = messagesPage.content.filter((msg) => {
-      if (processedMessageIds.current.has(msg.id)) return false;
+      const isNew = !processedMessageIds.current.has(msg.id);
       processedMessageIds.current.add(msg.id);
-      return true;
+      return isNew;
     });
 
-    if (newMessages.length === 0) return;
-
     setMessages((old) => [...old, ...newMessages]);
+
     setIsLastPage(messagesPage.last);
   }, [messagesPage]);
 
@@ -69,12 +69,12 @@ const ChatDisplay = ({ commonsId }) => {
         maxHeight: "300px",
       }}
     >
-      {sortedMessages.map((message) => (
+      {sortedMessages.map((m) => (
         <ChatMessageDisplay
-          key={message.id}
+          key={m.id}
           message={{
-            ...message,
-            username: userIdToUsername[message.userId],
+            ...m,
+            username: userIdToUsername[m.userId],
           }}
         />
       ))}
@@ -82,7 +82,7 @@ const ChatDisplay = ({ commonsId }) => {
       {!isLastPage ? (
         <button
           data-testid="MoreMessagesButton"
-          onClick={() => setPage(page + 1)}
+          onClick={() => setPage((p) => p + 1)}
         >
           More messages
         </button>

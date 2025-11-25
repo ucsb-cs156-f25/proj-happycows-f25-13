@@ -1,2 +1,0 @@
-import{j as t,r as p}from"./iframe-I4cfNmr7.js";function l({text:n}){if(n==null)return t.jsx("pre",{"data-testid":"plaintext-empty"});const s=typeof n=="string"?n:JSON.stringify(n,null,2),[e,...r]=s.split(`
-`);return t.jsxs("pre",{"data-testid":"plaintext",children:[t.jsx("span",{children:e}),r.map((i,a)=>t.jsxs(p.Fragment,{children:[t.jsx("br",{}),t.jsx("span",{children:i})]},a))]})}l.__docgenInfo={description:"",methods:[],displayName:"Plaintext"};export{l as P};

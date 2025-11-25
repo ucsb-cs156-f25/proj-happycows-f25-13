@@ -1,3 +1,0 @@
-import{j as s}from"./iframe-I4cfNmr7.js";import{F as o}from"./FarmStats-DAzq-arK.js";import{u as m}from"./userCommonsFixtures-DixY93bl.js";import"./preload-helper-PPVm8Dsz.js";import"./Card-vBIc997R.js";import"./ThemeProvider-B6GXOXNm.js";import"./CardHeaderContext-DIkh2YBH.js";import"./divWithClassName-C3IZR78O.js";import"./ElementChildren-CB7IeLia.js";const F={title:"components/Commons/FarmStats",component:o},e=t=>s.jsx(o,{...t}),r=e.bind({});r.args={userCommons:m.oneUserCommons[0]};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`args => {
-  return <FarmStats {...args} />;
-}`,...r.parameters?.docs?.source}}};const S=["Uncontrolled"];export{r as Uncontrolled,S as __namedExportsOrder,F as default};

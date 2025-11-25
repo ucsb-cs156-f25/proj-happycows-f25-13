@@ -20,7 +20,7 @@ Empty.parameters = {
   msw: {
     handlers: [
       http.get("/api/currentUser", () =>
-        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+        HttpResponse.json(apiCurrentUserFixtures.adminUser),
       ),
 
       http.get("/api/chat/get", ({ request }) => {
@@ -49,7 +49,7 @@ OneMessage.parameters = {
   msw: {
     handlers: [
       http.get("/api/currentUser", () =>
-        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+        HttpResponse.json(apiCurrentUserFixtures.adminUser),
       ),
 
       http.get("/api/chat/get", ({ request }) => {
@@ -57,7 +57,7 @@ OneMessage.parameters = {
         if (url.searchParams.get("commonsId") === "102") {
           return HttpResponse.json(
             { content: chatMessageFixtures.oneChatMessage, last: true },
-            { status: 200 }
+            { status: 200 },
           );
         }
         return HttpResponse.json({ content: [], last: true });
@@ -66,10 +66,9 @@ OneMessage.parameters = {
       http.get("/api/usercommons/all", ({ request }) => {
         const url = new URL(request.url);
         if (url.searchParams.get("commonsId") === "102") {
-          return HttpResponse.json(
-            userCommonsFixtures.oneUserCommons,
-            { status: 200 }
-          );
+          return HttpResponse.json(userCommonsFixtures.oneUserCommons, {
+            status: 200,
+          });
         }
         return HttpResponse.json([], { status: 200 });
       }),
@@ -84,7 +83,7 @@ ThreeMessages.parameters = {
   msw: {
     handlers: [
       http.get("/api/currentUser", () =>
-        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+        HttpResponse.json(apiCurrentUserFixtures.adminUser),
       ),
 
       http.get("/api/chat/get", ({ request }) => {
@@ -92,7 +91,7 @@ ThreeMessages.parameters = {
         if (url.searchParams.get("commonsId") === "103") {
           return HttpResponse.json(
             { content: chatMessageFixtures.threeChatMessages, last: true },
-            { status: 200 }
+            { status: 200 },
           );
         }
         return HttpResponse.json({ content: [], last: true });
@@ -101,10 +100,9 @@ ThreeMessages.parameters = {
       http.get("/api/usercommons/all", ({ request }) => {
         const url = new URL(request.url);
         if (url.searchParams.get("commonsId") === "103") {
-          return HttpResponse.json(
-            userCommonsFixtures.threeUserCommons,
-            { status: 200 }
-          );
+          return HttpResponse.json(userCommonsFixtures.threeUserCommons, {
+            status: 200,
+          });
         }
         return HttpResponse.json([], { status: 200 });
       }),
@@ -119,7 +117,7 @@ TwelveMessages.parameters = {
   msw: {
     handlers: [
       http.get("/api/currentUser", () =>
-        HttpResponse.json(apiCurrentUserFixtures.adminUser)
+        HttpResponse.json(apiCurrentUserFixtures.adminUser),
       ),
 
       http.get("/api/chat/get", ({ request }) => {
@@ -133,7 +131,7 @@ TwelveMessages.parameters = {
               content: chatMessageFixtures.twelveChatMessages.slice(-10),
               last: false,
             },
-            { status: 200 }
+            { status: 200 },
           );
         }
 
@@ -143,7 +141,7 @@ TwelveMessages.parameters = {
               content: chatMessageFixtures.twelveChatMessages.slice(0, -10),
               last: true,
             },
-            { status: 200 }
+            { status: 200 },
           );
         }
 
@@ -153,10 +151,9 @@ TwelveMessages.parameters = {
       http.get("/api/usercommons/all", ({ request }) => {
         const url = new URL(request.url);
         if (url.searchParams.get("commonsId") === "104") {
-          return HttpResponse.json(
-            userCommonsFixtures.tenUserCommons,
-            { status: 200 }
-          );
+          return HttpResponse.json(userCommonsFixtures.tenUserCommons, {
+            status: 200,
+          });
         }
         return HttpResponse.json([], { status: 200 });
       }),

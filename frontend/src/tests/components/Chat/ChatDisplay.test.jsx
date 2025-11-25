@@ -9,7 +9,6 @@ import { chatMessageFixtures } from "fixtures/chatMessageFixtures";
 
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
-import { vi } from "vitest";
 
 const makeClient = () =>
   new QueryClient({
@@ -24,7 +23,7 @@ const makeClient = () =>
     },
   });
 
-describe("ChatDisplay tests (rewritten)", () => {
+describe("ChatDisplay tests", () => {
   let axiosMock;
   const commonsId = 1;
 
@@ -60,11 +59,6 @@ describe("ChatDisplay tests (rewritten)", () => {
     expect(div).toHaveStyle("flexDirection: column-reverse");
   });
 
-  //
-  // ────────────────────────────────────────────────────────────────
-  //  EMPTY STATE
-  // ────────────────────────────────────────────────────────────────
-  //
   test("displays no messages when backend returns empty content", async () => {
     axiosMock.onGet("/api/chat/get").reply(200, { content: [], last: true });
     axiosMock.onGet("/api/usercommons/all").reply(200, []);
@@ -85,10 +79,13 @@ describe("ChatDisplay tests (rewritten)", () => {
     expect(screen.queryByText("Anonymous")).not.toBeInTheDocument();
   });
 
-  test("displays three messages with correct usernames and sorted newest→oldest", async () => {
+  test("displays three messages with correct usernames and sorted newest to oldest", async () => {
     axiosMock
       .onGet("/api/chat/get")
-      .reply(200, { content: chatMessageFixtures.threeChatMessages, last: true });
+      .reply(200, {
+        content: chatMessageFixtures.threeChatMessages,
+        last: true,
+      });
 
     axiosMock
       .onGet("/api/usercommons/all")
@@ -122,9 +119,9 @@ describe("ChatDisplay tests (rewritten)", () => {
     expect(screen.getByTestId("ChatMessageDisplay-1-User")).toHaveTextContent(
       "George Washington",
     );
-    expect(screen.getByTestId("ChatMessageDisplay-1-Message")).toHaveTextContent(
-      "Hello World",
-    );
+    expect(
+      screen.getByTestId("ChatMessageDisplay-1-Message"),
+    ).toHaveTextContent("Hello World");
     expect(screen.getByTestId("ChatMessageDisplay-1-Date")).toHaveTextContent(
       "2023-08-17 23:57:46",
     );
@@ -143,9 +140,7 @@ describe("ChatDisplay tests (rewritten)", () => {
       .onGet("/api/chat/get")
       .reply(200, { content: chatMessageFixtures.oneChatMessage, last: true });
 
-    axiosMock
-      .onGet("/api/usercommons/all")
-      .reply(200, [{ userId: 1 }]);
+    axiosMock.onGet("/api/usercommons/all").reply(200, [{ userId: 1 }]);
 
     render(
       <QueryClientProvider client={makeClient()}>
@@ -164,55 +159,55 @@ describe("ChatDisplay tests (rewritten)", () => {
     );
   });
 
-test("loads 10 messages first, then 2 older messages after clicking More messages", async () => {
-      axiosMock
-        .onGet("/api/chat/get", {
-          params: { commonsId: 1, page: 0, size: 10 },
-        })
-        .reply(200, {
-          content: chatMessageFixtures.twelveChatMessages.slice(0, 10),
-          last: false,
-        });
-
-      axiosMock
-        .onGet("/api/chat/get", {
-          params: { commonsId: 1, page: 1, size: 10 },
-        })
-        .reply(200, {
-          content: chatMessageFixtures.twelveChatMessages.slice(10),
-          last: true,
-        });
-
-      axiosMock
-        .onGet("/api/usercommons/all", {
-          params: { commonsId: 1 },
-        })
-        .reply(200, userCommonsFixtures.tenUserCommons);
-
-      render(
-        <QueryClientProvider client={makeClient()}>
-          <MemoryRouter>
-            <ChatDisplay commonsId={1} />
-          </MemoryRouter>
-        </QueryClientProvider>,
-      );
-
-      await waitFor(() => {
-        const topLevel = screen.getAllByTestId(/^ChatMessageDisplay-\d+$/);
-        expect(topLevel).toHaveLength(10);
+  test("loads 10 messages first, then 2 older messages after clicking More messages", async () => {
+    axiosMock
+      .onGet("/api/chat/get", {
+        params: { commonsId: 1, page: 0, size: 10 },
+      })
+      .reply(200, {
+        content: chatMessageFixtures.twelveChatMessages.slice(0, 10),
+        last: false,
       });
 
-      expect(screen.getByTestId("MoreMessagesButton")).toBeInTheDocument();
-
-      screen.getByTestId("MoreMessagesButton").click();
-
-      await waitFor(() => {
-        const topLevel = screen.getAllByTestId(/^ChatMessageDisplay-\d+$/);
-        expect(topLevel).toHaveLength(12);
+    axiosMock
+      .onGet("/api/chat/get", {
+        params: { commonsId: 1, page: 1, size: 10 },
+      })
+      .reply(200, {
+        content: chatMessageFixtures.twelveChatMessages.slice(10),
+        last: true,
       });
 
-      expect(screen.getByTestId("NoMoreMessages")).toBeInTheDocument();
+    axiosMock
+      .onGet("/api/usercommons/all", {
+        params: { commonsId: 1 },
+      })
+      .reply(200, userCommonsFixtures.tenUserCommons);
+
+    render(
+      <QueryClientProvider client={makeClient()}>
+        <MemoryRouter>
+          <ChatDisplay commonsId={1} />
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+
+    await waitFor(() => {
+      const topLevel = screen.getAllByTestId(/^ChatMessageDisplay-\d+$/);
+      expect(topLevel).toHaveLength(10);
     });
+
+    expect(screen.getByTestId("MoreMessagesButton")).toBeInTheDocument();
+
+    screen.getByTestId("MoreMessagesButton").click();
+
+    await waitFor(() => {
+      const topLevel = screen.getAllByTestId(/^ChatMessageDisplay-\d+$/);
+      expect(topLevel).toHaveLength(12);
+    });
+
+    expect(screen.getByTestId("NoMoreMessages")).toBeInTheDocument();
+  });
 
   test("ChatDisplay does not retry failed requests", async () => {
     axiosMock.onGet("/api/chat/get").reply(500);
@@ -226,7 +221,6 @@ test("loads 10 messages first, then 2 older messages after clicking More message
       </QueryClientProvider>,
     );
 
-    // retry:true would cause >1 request
     await waitFor(() => {
       expect(axiosMock.history.get.length).toBe(2);
     });
@@ -252,4 +246,3 @@ test("loads 10 messages first, then 2 older messages after clicking More message
     expect(axiosMock.history.get.length).toBe(before);
   });
 });
-

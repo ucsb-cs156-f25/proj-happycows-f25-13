@@ -18,7 +18,7 @@ const ChatDisplay = ({ commonsId }) => {
       url: "/api/chat/get",
       params: { commonsId, page, size: 10 },
     },
-    { content: [], last: true }
+    { content: [], last: true },
   );
 
   const { data: userCommonsList } = useBackend(
@@ -28,7 +28,7 @@ const ChatDisplay = ({ commonsId }) => {
       url: "/api/usercommons/all",
       params: { commonsId },
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -39,7 +39,6 @@ const ChatDisplay = ({ commonsId }) => {
   }, [commonsId]);
 
   useEffect(() => {
-
     const newMessages = messagesPage.content.filter((msg) => {
       const isNew = !processedMessageIds.current.has(msg.id);
       processedMessageIds.current.add(msg.id);

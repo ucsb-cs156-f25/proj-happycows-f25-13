@@ -1,0 +1,1 @@
+const a=t=>t<10?"0"+t:t,n=t=>{var e=new Date(t);return e.getFullYear()+"-"+a(e.getMonth()+1)+"-"+a(e.getDate())},s=t=>{var e=new Date,r=new Date(t),i=Math.abs(e.getTime()-r.getTime());return Math.ceil(i/864e5)};export{s as d,n as t};

@@ -1,0 +1,5 @@
+import{j as n}from"./iframe-I4cfNmr7.js";import{c as t}from"./commonsFixtures-D3vg764c.js";import{C as s}from"./CommonsCard-CuR330u2.js";import"./preload-helper-PPVm8Dsz.js";import"./Card-vBIc997R.js";import"./ThemeProvider-B6GXOXNm.js";import"./CardHeaderContext-DIkh2YBH.js";import"./divWithClassName-C3IZR78O.js";import"./Container-BJ8dJyT0.js";import"./Row-DDec79y2.js";import"./Col-Dr9y2KPk.js";import"./Button-BWWjhAGH.js";const f={title:"components/Commons/CommonsCard",component:s},m=e=>n.jsx(s,{...e}),o=m.bind({});o.args={commons:t.threeCommons[0],buttonText:null};const r=m.bind({});r.args={commons:t.threeCommons[0],buttonText:"Join"};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsCard {...args} />;
+}`,...o.parameters?.docs?.source}}};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsCard {...args} />;
+}`,...r.parameters?.docs?.source}}};const B=["NullButton","TextButton"];export{o as NullButton,r as TextButton,B as __namedExportsOrder,f as default};

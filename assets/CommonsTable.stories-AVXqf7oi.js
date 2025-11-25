@@ -1,0 +1,11 @@
+import{j as i}from"./iframe-I4cfNmr7.js";import{C as t}from"./CommonsTable-C768i9CL.js";import{c as a}from"./commonsPlusFixtures-mzOlvYk5.js";import{c}from"./currentUserFixtures-C0ist6Aa.js";import"./preload-helper-PPVm8Dsz.js";import"./Button-BWWjhAGH.js";import"./ThemeProvider-B6GXOXNm.js";import"./Modal-AD_rdGPr.js";import"./hasClass-C4jfBOMC.js";import"./useEventCallback-CA0K2nOA.js";import"./useWillUnmount-SRGlynP8.js";import"./AbstractModalHeader-DeARenYH.js";import"./index-C2cGXuLe.js";import"./divWithClassName-C3IZR78O.js";import"./OurTable-C04NBETo.js";import"./Plaintext-C80QqjbC.js";import"./Table-B5bM3UlC.js";import"./Anchor-BGu4CbW5.js";import"./useBackend-BY46enre.js";import"./index-BiarU4en.js";import"./commonsUtils-Cw1PLgrX.js";import"./currentUser-6t8hUoF_.js";const q={title:"components/commons/CommonsTable",component:t},n=p=>i.jsx(t,{...p}),r=n.bind({});r.args={commons:[]};const o=n.bind({});o.args={commons:a.threeCommonsPlus};const s=n.bind({});s.args={commons:a.oneCommonsPlus};const m=n.bind({});m.args={commons:a.threeCommonsPlus,currentUser:c.adminUser};const e=n.bind({});e.args={commons:a.oneCommonsPlus,currentUser:c.adminUser};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsTable {...args} />;
+}`,...r.parameters?.docs?.source}}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsTable {...args} />;
+}`,...o.parameters?.docs?.source}}};s.parameters={...s.parameters,docs:{...s.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsTable {...args} />;
+}`,...s.parameters?.docs?.source}}};m.parameters={...m.parameters,docs:{...m.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsTable {...args} />;
+}`,...m.parameters?.docs?.source}}};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsTable {...args} />;
+}`,...e.parameters?.docs?.source}}};const v=["Empty","ThreeCommons","OneCommons","ThreeCommonsAdmin","OneCommonsAdmin"];export{r as Empty,s as OneCommons,e as OneCommonsAdmin,o as ThreeCommons,m as ThreeCommonsAdmin,v as __namedExportsOrder,q as default};

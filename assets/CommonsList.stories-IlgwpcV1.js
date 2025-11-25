@@ -1,0 +1,5 @@
+import{j as n}from"./iframe-I4cfNmr7.js";import{c as r}from"./commonsFixtures-D3vg764c.js";import{C as s}from"./CommonsList-CqA12StI.js";import"./preload-helper-PPVm8Dsz.js";import"./CommonsCard-CuR330u2.js";import"./Card-vBIc997R.js";import"./ThemeProvider-B6GXOXNm.js";import"./CardHeaderContext-DIkh2YBH.js";import"./divWithClassName-C3IZR78O.js";import"./Container-BJ8dJyT0.js";import"./Row-DDec79y2.js";import"./Col-Dr9y2KPk.js";import"./Button-BWWjhAGH.js";const f={title:"components/Commons/CommonsList",component:s},m=e=>n.jsx(s,{...e}),o=m.bind({});o.args={commonList:r.threeCommons,buttonText:null};const t=m.bind({});t.args={commonList:r.threeCommons,buttonText:"Join"};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsList {...args} />;
+}`,...o.parameters?.docs?.source}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsList {...args} />;
+}`,...t.parameters?.docs?.source}}};const B=["NullButton","TextButton"];export{o as NullButton,t as TextButton,B as __namedExportsOrder,f as default};

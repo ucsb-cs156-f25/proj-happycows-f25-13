@@ -1,0 +1,3 @@
+import{j as t}from"./iframe-I4cfNmr7.js";import{C as o}from"./CommonsPlay-DvX5SaqS.js";import{c as e}from"./currentUserFixtures-C0ist6Aa.js";import"./preload-helper-PPVm8Dsz.js";/* empty css                 */import"./Card-vBIc997R.js";import"./ThemeProvider-B6GXOXNm.js";import"./CardHeaderContext-DIkh2YBH.js";import"./divWithClassName-C3IZR78O.js";const C={title:"components/Commons/CommonsPlay",component:o},m=s=>t.jsx(o,{...s}),r=m.bind({});r.args={currentUser:e.adminUser};r.parameters={...r.parameters,docs:{...r.parameters?.docs,source:{originalSource:`args => {
+  return <CommonsPlay {...args} />;
+}`,...r.parameters?.docs?.source}}};const U=["Uncontrolled"];export{r as Uncontrolled,U as __namedExportsOrder,C as default};

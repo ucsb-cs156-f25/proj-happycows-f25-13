@@ -1,0 +1,3 @@
+import{j as s}from"./iframe-I4cfNmr7.js";import{T as r}from"./TestJobForm-BGReRcyq.js";import"./preload-helper-PPVm8Dsz.js";import"./index.esm-Cwj26zil.js";import"./ThemeProvider-B6GXOXNm.js";import"./index-C2cGXuLe.js";import"./ElementChildren-CB7IeLia.js";import"./warning-Hv96_FeQ.js";import"./Col-Dr9y2KPk.js";import"./Button-BWWjhAGH.js";const{action:e}=__STORYBOOK_MODULE_ACTIONS__,T={title:"components/Jobs/TestJobForm",component:r},m=t=>s.jsx(r,{...t}),o=m.bind({});o.args={submitAction:e("submit")};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`args => {
+  return <TestJobForm {...args} />;
+}`,...o.parameters?.docs?.source}}};const O=["Uncontrolled"];export{o as Uncontrolled,O as __namedExportsOrder,T as default};

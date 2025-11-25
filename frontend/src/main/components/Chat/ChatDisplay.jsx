@@ -22,10 +22,10 @@ const ChatDisplay = ({ commonsId }) => {
   );
 
   const { data: userCommonsList } = useBackend(
-    ["/api/usercommons/all", commonsId],
+    ["/api/usercommons/commons/all", commonsId],
     {
       method: "GET",
-      url: "/api/usercommons/all",
+      url: "/api/usercommons/commons/all",
       params: { commonsId },
     },
     [],

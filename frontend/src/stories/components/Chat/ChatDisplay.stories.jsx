@@ -31,7 +31,7 @@ Empty.parameters = {
         return HttpResponse.json({ content: [], last: true });
       }),
 
-      http.get("/api/usercommons/all", ({ request }) => {
+      http.get("/api/usercommons/commons/all", ({ request }) => {
         const url = new URL(request.url);
         if (url.searchParams.get("commonsId") === "101") {
           return HttpResponse.json([], { status: 200 });
@@ -63,7 +63,7 @@ OneMessage.parameters = {
         return HttpResponse.json({ content: [], last: true });
       }),
 
-      http.get("/api/usercommons/all", ({ request }) => {
+      http.get("/api/usercommons/commons/all", ({ request }) => {
         const url = new URL(request.url);
         if (url.searchParams.get("commonsId") === "102") {
           return HttpResponse.json(userCommonsFixtures.oneUserCommons, {
@@ -97,7 +97,7 @@ ThreeMessages.parameters = {
         return HttpResponse.json({ content: [], last: true });
       }),
 
-      http.get("/api/usercommons/all", ({ request }) => {
+      http.get("/api/usercommons/commons/all", ({ request }) => {
         const url = new URL(request.url);
         if (url.searchParams.get("commonsId") === "103") {
           return HttpResponse.json(userCommonsFixtures.threeUserCommons, {
@@ -148,7 +148,7 @@ TwelveMessages.parameters = {
         return HttpResponse.json({ content: [], last: true });
       }),
 
-      http.get("/api/usercommons/all", ({ request }) => {
+      http.get("/api/usercommons/commons/all", ({ request }) => {
         const url = new URL(request.url);
         if (url.searchParams.get("commonsId") === "104") {
           return HttpResponse.json(userCommonsFixtures.tenUserCommons, {

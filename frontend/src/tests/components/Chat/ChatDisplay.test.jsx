@@ -38,7 +38,7 @@ describe("ChatDisplay tests", () => {
 
   test("renders ChatDisplay container styles", async () => {
     axiosMock.onGet("/api/chat/get").reply(200, { content: [], last: true });
-    axiosMock.onGet("/api/usercommons/all").reply(200, []);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, []);
 
     render(
       <QueryClientProvider client={makeClient()}>
@@ -61,7 +61,7 @@ describe("ChatDisplay tests", () => {
 
   test("displays no messages when backend returns empty content", async () => {
     axiosMock.onGet("/api/chat/get").reply(200, { content: [], last: true });
-    axiosMock.onGet("/api/usercommons/all").reply(200, []);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, []);
 
     render(
       <QueryClientProvider client={makeClient()}>
@@ -86,7 +86,7 @@ describe("ChatDisplay tests", () => {
     });
 
     axiosMock
-      .onGet("/api/usercommons/all")
+      .onGet("/api/usercommons/commons/all")
       .reply(200, userCommonsFixtures.threeUserCommons);
 
     render(
@@ -138,7 +138,7 @@ describe("ChatDisplay tests", () => {
       .onGet("/api/chat/get")
       .reply(200, { content: chatMessageFixtures.oneChatMessage, last: true });
 
-    axiosMock.onGet("/api/usercommons/all").reply(200, [{ userId: 1 }]);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, [{ userId: 1 }]);
 
     render(
       <QueryClientProvider client={makeClient()}>
@@ -177,7 +177,7 @@ describe("ChatDisplay tests", () => {
       });
 
     axiosMock
-      .onGet("/api/usercommons/all", {
+      .onGet("/api/usercommons/commons/all", {
         params: { commonsId: 1 },
       })
       .reply(200, userCommonsFixtures.tenUserCommons);
@@ -209,7 +209,7 @@ describe("ChatDisplay tests", () => {
 
   test("ChatDisplay does not retry failed requests", async () => {
     axiosMock.onGet("/api/chat/get").reply(500);
-    axiosMock.onGet("/api/usercommons/all").reply(200, []);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, []);
 
     render(
       <QueryClientProvider client={makeClient()}>
@@ -226,7 +226,7 @@ describe("ChatDisplay tests", () => {
 
   test("ChatDisplay does not refetch on window focus", async () => {
     axiosMock.onGet("/api/chat/get").reply(200, { content: [], last: true });
-    axiosMock.onGet("/api/usercommons/all").reply(200, []);
+    axiosMock.onGet("/api/usercommons/commons/all").reply(200, []);
 
     render(
       <QueryClientProvider client={makeClient()}>

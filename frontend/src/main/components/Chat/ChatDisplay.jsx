@@ -3,27 +3,25 @@ import ChatMessageDisplay from "main/components/Chat/ChatMessageDisplay";
 import { useBackend } from "main/utils/useBackend";
 
 const ChatDisplay = ({ commonsId }) => {
-  const [messages, setMessages] = useState([]);
+  const [size, setSize] = useState(10);
 
-  const [page, setPage] = useState(0);
+  const scrollContainerRef = useRef(null);
+  // store scroll info when we click "More messages"
+  const preserveScrollRef = useRef(null);
 
-  const [isLastPage, setIsLastPage] = useState(false);
-
-  const processedMessageIds = useRef(new Set());
-
-  // Stryker disable all
   const { data: messagesPage } = useBackend(
-    ["/api/chat/get", page],
+    ["/api/chat/get", commonsId, size],
     {
       method: "GET",
       url: "/api/chat/get",
       params: {
-        commonsId: commonsId,
-        page: page,
-        size: 10,
+        commonsId,
+        page: 0,
+        size,
       },
     },
     { content: [], last: true },
+    { refetchInterval: 2000 }
   );
 
   const { data: userCommonsList } = useBackend(
@@ -33,42 +31,80 @@ const ChatDisplay = ({ commonsId }) => {
       url: "/api/usercommons/commons/all",
       params: { commonsId },
     },
-    [],
+    []
   );
 
-  useEffect(() => {
-    // if (!messagesPage || !messagesPage.content) return;
-
-    const newMessages = messagesPage.content.filter((msg) => {
-      if (processedMessageIds.current.has(msg.id)) return false;
-      processedMessageIds.current.add(msg.id);
-      return true;
-    });
-
-    if (newMessages.length === 0) return;
-
-    setMessages((old) => [...old, ...newMessages]);
-    setIsLastPage(messagesPage.last);
-  }, [messagesPage]);
-
-  // Stryker restore all
   const userIdToUsername = userCommonsList.reduce((acc, user) => {
     acc[user.userId] = user.username || "";
     return acc;
   }, {});
 
-  const sortedMessages = [...messages].sort((a, b) => b.id - a.id);
+  // oldest at top, newest at bottom
+  const sortedMessages = [...(messagesPage.content || [])].sort(
+    (a, b) => a.id - b.id
+  );
+
+  const latestMessageId =
+    sortedMessages.length > 0
+      ? sortedMessages[sortedMessages.length - 1].id
+      : null;
+
+  // Auto-scroll to bottom on new message, preserve position when loading older ones
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    if (sortedMessages.length === 0) return;
+
+    // If "More messages" was clicked, restore where user was
+    if (preserveScrollRef.current !== null) {
+      const { prevScrollTop, prevScrollHeight } = preserveScrollRef.current;
+      const newScrollHeight = container.scrollHeight;
+      const heightDiff = newScrollHeight - prevScrollHeight;
+
+      container.scrollTop = prevScrollTop + heightDiff;
+      preserveScrollRef.current = null;
+      return;
+    }
+
+    // Normal auto-scroll to bottom when a new latest message arrives
+    container.scrollTop = container.scrollHeight;
+  }, [latestMessageId, sortedMessages.length]);
+
+  const handleMoreMessages = () => {
+    const container = scrollContainerRef.current;
+
+    if (container) {
+      preserveScrollRef.current = {
+        prevScrollTop: container.scrollTop,
+        prevScrollHeight: container.scrollHeight,
+      };
+    }
+
+    setSize((old) => old + 10);
+  };
 
   return (
     <div
+      ref={scrollContainerRef}
       data-testid="ChatDisplay"
       style={{
-        display: "flex",
-        flexDirection: "column-reverse",
         overflowY: "scroll",
         maxHeight: "300px",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
+      {!messagesPage.last ? (
+        <button
+          data-testid="MoreMessagesButton"
+          onClick={handleMoreMessages}
+        >
+          More messages
+        </button>
+      ) : (
+        <div data-testid="NoMoreMessages">[no more messages]</div>
+      )}
+
       {sortedMessages.map((message) => (
         <ChatMessageDisplay
           key={message.id}
@@ -78,17 +114,6 @@ const ChatDisplay = ({ commonsId }) => {
           }}
         />
       ))}
-
-      {!isLastPage ? (
-        <button
-          data-testid="MoreMessagesButton"
-          onClick={() => setPage(page + 1)}
-        >
-          More messages
-        </button>
-      ) : (
-        <div data-testid="NoMoreMessages">[no more messages]</div>
-      )}
     </div>
   );
 };

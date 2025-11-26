@@ -21,7 +21,7 @@ const ChatDisplay = ({ commonsId }) => {
       },
     },
     { content: [], last: true },
-    { refetchInterval: 2000 }
+    { refetchInterval: 2000 },
   );
 
   const { data: userCommonsList } = useBackend(
@@ -31,7 +31,7 @@ const ChatDisplay = ({ commonsId }) => {
       url: "/api/usercommons/commons/all",
       params: { commonsId },
     },
-    []
+    [],
   );
 
   const userIdToUsername = userCommonsList.reduce((acc, user) => {
@@ -41,7 +41,7 @@ const ChatDisplay = ({ commonsId }) => {
 
   // oldest at top, newest at bottom
   const sortedMessages = [...(messagesPage.content || [])].sort(
-    (a, b) => a.id - b.id
+    (a, b) => a.id - b.id,
   );
 
   const latestMessageId =
@@ -95,10 +95,7 @@ const ChatDisplay = ({ commonsId }) => {
       }}
     >
       {!messagesPage.last ? (
-        <button
-          data-testid="MoreMessagesButton"
-          onClick={handleMoreMessages}
-        >
+        <button data-testid="MoreMessagesButton" onClick={handleMoreMessages}>
           More messages
         </button>
       ) : (
